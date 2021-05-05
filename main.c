@@ -49,7 +49,7 @@ static void serial_start(void)
 	sdStart(&SD3, &ser_cfg); // UART3.
 }
 
- 	//TIMER 11 (GPTD12 marche pas / GPTD11 marche -> probleme)
+
 
 static void timer11_start(void){
     //General Purpose Timer configuration
@@ -84,6 +84,8 @@ int main(void)
     timer11_start();
     	//inits the motors
     	motors_init();
+    	//start TOF
+    	VL53L0X_start();
 
 
 
