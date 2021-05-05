@@ -3,13 +3,19 @@
 #Simply adapt the lines below to be able to compile
 
 # Define project name here
-PROJECT = Project_template
+PROJECT = mini_projet
 
 #Define path to the e-puck2_main-processor folder
-GLOBAL_PATH = ../e-puck2_main-processor
+GLOBAL_PATH = /Users/giannacrovetto/Desktop/Microinformatique-TPs/lib/e-puck2_main-processor
 
-#Source files to include
+#Source files to include à REMPLIR
 CSRC += ./main.c \
+		./audio_processing.c \
+		./communications.c \
+		./fft.c \
+
+
+
 
 #Header folders to include
 INCDIR += 
