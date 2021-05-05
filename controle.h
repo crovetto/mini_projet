@@ -8,7 +8,8 @@
 #ifndef CONTROLE_H_
 #define CONTROLE_H_
 
-
+void dessin_start(void);
+void tof_start(void);
 
 
 

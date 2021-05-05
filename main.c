@@ -87,6 +87,10 @@ int main(void)
     	motors_init();
     	//start TOF
     	VL53L0X_start();
+    	//init thread
+    	dessin_start();
+    	//init thread
+    	tof_start();
 
 
 
