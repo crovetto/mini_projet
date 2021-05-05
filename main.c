@@ -4,6 +4,8 @@
 #include <string.h>
 #include <math.h>
 
+//test
+
 #include <leds.h>
 #include "ch.h"
 #include "hal.h"
@@ -14,7 +16,6 @@
 #include <chprintf.h>
 #include <usbcfg.h>
 #include <motors.h>
-#include <chprintf.h>
 
 
 #include <audio/microphone.h>
@@ -22,7 +23,7 @@
 #include <fft.h>
 #include <communications.h>
 #include <arm_math.h>
-//#include <controle.h>
+#include <controle.h>
 
 //uncomment to send the FFTs results from the real microphones
 #define SEND_FROM_MIC
@@ -49,7 +50,7 @@ static void serial_start(void)
 	sdStart(&SD3, &ser_cfg); // UART3.
 }
 
- 	//TIMER 11 (GPTD12 marche pas / GPTD11 marche -> probleme)
+
 
 static void timer11_start(void){
     //General Purpose Timer configuration
@@ -84,6 +85,8 @@ int main(void)
     timer11_start();
     	//inits the motors
     	motors_init();
+    	//start TOF
+    	VL53L0X_start();
 
 
 
