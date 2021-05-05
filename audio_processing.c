@@ -27,21 +27,24 @@ static float micBack_output[FFT_SIZE];
 
 #define MIN_VALUE_THRESHOLD	10000 
 
-#define MIN_FREQ		10	//we don't analyze before this index to not use resources for nothing
-#define FREQ_FORWARD	16	//250Hz
+#define MIN_FREQ			10	//we don't analyze before this index to not use resources for nothing
+#define FREQ_FORWARD		16	//250Hz
 #define FREQ_LEFT		19	//296Hz
 #define FREQ_RIGHT		23	//359HZ
 #define FREQ_BACKWARD	26	//406Hz
-#define MAX_FREQ		30	//we don't analyze after this index to not use resources for nothing
+#define MAX_FREQ			30	//we don't analyze after this index to not use resources for nothing
 
 #define FREQ_FORWARD_L		(FREQ_FORWARD-1)
 #define FREQ_FORWARD_H		(FREQ_FORWARD+1)
 #define FREQ_LEFT_L			(FREQ_LEFT-1)
 #define FREQ_LEFT_H			(FREQ_LEFT+1)
-#define FREQ_RIGHT_L		(FREQ_RIGHT-1)
-#define FREQ_RIGHT_H		(FREQ_RIGHT+1)
+#define FREQ_RIGHT_L			(FREQ_RIGHT-1)
+#define FREQ_RIGHT_H			(FREQ_RIGHT+1)
 #define FREQ_BACKWARD_L		(FREQ_BACKWARD-1)
 #define FREQ_BACKWARD_H		(FREQ_BACKWARD+1)
+
+
+static uint8_t forme = 0;
 
 /*
 *	Simple function used to detect the highest value in a buffer
@@ -84,6 +87,44 @@ void sound_remote(float* data){
 		right_motor_set_speed(0);
 	}
 	
+}
+
+
+/*
+*	Simple fonction utilisée pour detecter la plus grande valeur dans un buffer
+*	et selon la fréquence, retourne une forme spécifique
+*/
+uint8_t son_detection(float* data){
+	float max_norm = MIN_VALUE_THRESHOLD;
+	int16_t max_norm_index = -1;
+
+	//search for the highest peak
+	for(uint16_t i = MIN_FREQ ; i <= MAX_FREQ ; i++){
+		if(data[i] > max_norm){
+			max_norm = data[i];
+			max_norm_index = i;
+		}
+	}
+	//TRIANGLE
+	if(max_norm_index >= FREQ_FORWARD_L && max_norm_index <= FREQ_FORWARD_H){
+		return 1;
+	}
+	//CARRE
+//	else if(max_norm_index >= FREQ_LEFT_L && max_norm_index <= FREQ_LEFT_H){
+//		return CARRE;
+//	}
+//	//turn right
+//	else if(max_norm_index >= FREQ_RIGHT_L && max_norm_index <= FREQ_RIGHT_H){
+//		return TRUE;
+//	}
+//	//go backward
+//	else if(max_norm_index >= FREQ_BACKWARD_L && max_norm_index <= FREQ_BACKWARD_H){
+//		return TRUE;
+//	}
+	else{
+		return 0;
+	}
+
 }
 
 /*
@@ -165,8 +206,18 @@ void processAudioData(int16_t *data, uint16_t num_samples){
 		nb_samples = 0;
 		mustSend++;
 
-		sound_remote(micLeft_output);
+		forme = son_detection(micLeft_output);
 	}
+}
+
+uint8_t get_forme(void)
+{
+	return forme;
+}
+
+void clear_forme(void)
+{
+	forme=0;
 }
 
 void wait_send_to_computer(void){

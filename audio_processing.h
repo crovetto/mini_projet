@@ -17,6 +17,13 @@ typedef enum {
 	BACK_OUTPUT
 } BUFFER_NAME_t;
 
+enum forme { ZERO, TRIANGLE, CARRE };
+
+/*
+*	redonne la valeur de la forme
+*/
+uint8_t get_forme(void);
+void clear_forme(void);
 
 void processAudioData(int16_t *data, uint16_t num_samples);
 
