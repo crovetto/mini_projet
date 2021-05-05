@@ -14,7 +14,6 @@
 #include <chprintf.h>
 #include <usbcfg.h>
 #include <motors.h>
-#include <chprintf.h>
 
 
 #include <audio/microphone.h>
@@ -22,7 +21,7 @@
 #include <fft.h>
 #include <communications.h>
 #include <arm_math.h>
-//#include <controle.h>
+#include <controle.h>
 
 //uncomment to send the FFTs results from the real microphones
 #define SEND_FROM_MIC
