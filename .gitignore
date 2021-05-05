@@ -1,6 +1,11 @@
 build
 .DS_store
 
+#fichiers
+.cproject
+Makefile
+.settings/language.settings.xml
+Debug_project_template.launch
 
 # Prerequisites
 *.d
