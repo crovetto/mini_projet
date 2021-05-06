@@ -90,7 +90,7 @@ int main(void)
     	//init thread
     	dessin_start();
     	//init thread
-    	tof_start();
+    	//tof_start();
 
 
 
