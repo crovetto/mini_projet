@@ -8,7 +8,7 @@
 #ifndef CONTROLE_H_
 #define CONTROLE_H_
 
-int obstacle_detection(void);
+bool obstacle_detection(void);
 
 void dessin_start(void);
 
