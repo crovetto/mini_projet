@@ -6,7 +6,7 @@
 PROJECT = mini_projet
 
 #Define path to the e-puck2_main-processor folder
-GLOBAL_PATH = /Users/giannacrovetto/Desktop/Microinformatique-TPs/lib/e-puck2_main-processor
+GLOBAL_PATH =  ../../lib/e-puck2_main-processor
 
 #Source files to include à REMPLIR
 CSRC += ./main.c \

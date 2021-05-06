@@ -20,7 +20,7 @@
 
 
 
-int obstacle_detection(void){
+bool obstacle_detection(void){
 	if(VL53L0X_get_dist_mm()<50)
 	{
 		set_body_led(1);
