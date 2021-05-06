@@ -15,27 +15,25 @@
 
 #define COTE_MAX				1000
 #define TRIANGLE_ARETE_MAX	3
-#define ANGLE_MAX			COTE_MAX	+20
-#define 	ANGLE_MIN			COTE_MAX	-20
+#define ANGLE_MAX			40
+#define 	ANGLE_MIN			-40
 
 
+static uint8_t nb_arete=0;
 
-int obstacle_detection(void){
+bool obstacle_detection(void){
 	if(VL53L0X_get_dist_mm()<50)
 	{
-		set_body_led(1);
 		right_motor_set_speed(0);
 		left_motor_set_speed(0);
 		return true;
 	}
 	else{
-		set_body_led(0);
 		return false;
 	}
 }
 
 
-uint8_t nb_arete=0;
 
 static THD_WORKING_AREA(waDessin,256);
 static THD_FUNCTION(Dessin,arg){
@@ -52,65 +50,68 @@ static THD_FUNCTION(Dessin,arg){
 //			right_motor_set_pos(0);
 //		}
 
-		set_led(LED1,1);
+		if(!obstacle_detection()){
+			set_body_led(0);
+			switch(get_forme())
+			{
+				case TRIANGLE:
+					if(nb_arete<TRIANGLE_ARETE_MAX){
+						if(right_motor_get_pos()<COTE_MAX && left_motor_get_pos()<COTE_MAX){
+							clear_not_moving();
+							right_motor_set_speed(600);
+							left_motor_set_speed(600);
+						}
+						else if(nb_arete<TRIANGLE_ARETE_MAX-1 && right_motor_get_pos()<=ANGLE_MAX && left_motor_get_pos()>=ANGLE_MIN){
+							right_motor_set_speed(600);
+							left_motor_set_speed(-600);
+						}
 
-		switch(get_forme())
-		{
-
-//			case TRIANGLE:
-//					//	CONTROLE DISTANCE DETECTION
-//				if(right_motor_get_pos()<COTE_MAX && left_motor_get_pos()<COTE_MAX){
-//					right_motor_set_speed(600);
-//					left_motor_set_speed(600);
-//
-//				}
-//
-//				else if(nb_arete<TRIANGLE_ARETE_MAX && right_motor_get_pos()<=ANGLE_MAX && left_motor_get_pos()>=ANGLE_MIN){
-//					right_motor_set_speed(600);
-//					left_motor_set_speed(-600);
-//				}
-//				else if(right_motor_get_pos()==ANGLE_MAX && left_motor_get_pos()==ANGLE_MIN){
-//						nb_arete++;
-//
-//				}
-//				else{
-//					right_motor_set_speed(0);
-//					left_motor_set_speed(0);
-//				}
-//				break;
-//			default:
-//				break;
-
-
-			case TRIANGLE:
-
-				if(!obstacle_detection())
-				{
-					set_body_led(0);
-					if(right_motor_get_pos()<COTE_MAX)
-					{
-						clear_not_moving();
-						right_motor_set_speed(600);
-						left_motor_set_speed(600);
-						set_front_led(1);
 					}
 					else {
 						right_motor_set_speed(0);
 						left_motor_set_speed(0);
 						set_not_moving();
 					}
+					break;
 
-				}
-				break;
-
-			default:
-				right_motor_set_pos(0);
-				right_motor_set_speed(0);
-				left_motor_set_speed(0);
-				set_front_led(0);
-				set_not_moving();
-				break;
+				default:
+					right_motor_set_pos(0);
+					right_motor_set_speed(0);
+					left_motor_set_speed(0);
+					set_not_moving();
+					break;
+			}
 		}
+		else{
+			set_body_led(1);
+		}
+
+
+
+		//			case TRIANGLE:
+			//					//	CONTROLE DISTANCE DETECTION
+			//				if(right_motor_get_pos()<COTE_MAX && left_motor_get_pos()<COTE_MAX){
+			//					right_motor_set_speed(600);
+			//					left_motor_set_speed(600);
+			//
+			//				}
+			//
+			//				else if(nb_arete<TRIANGLE_ARETE_MAX && right_motor_get_pos()<=ANGLE_MAX && left_motor_get_pos()>=ANGLE_MIN){
+			//					right_motor_set_speed(600);
+			//					left_motor_set_speed(-600);
+			//				}
+			//				else if(right_motor_get_pos()==ANGLE_MAX && left_motor_get_pos()==ANGLE_MIN){
+			//						nb_arete++;
+			//
+			//				}
+			//				else{
+			//					right_motor_set_speed(0);
+			//					left_motor_set_speed(0);
+			//				}
+			//				break;
+			//			default:
+			//				break;
+
 
 
 
