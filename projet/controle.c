@@ -13,10 +13,10 @@
 
 #include <leds.h>
 
-#define COTE_MAX				1000
+#define COTE_MAX				500
 #define TRIANGLE_ARETE_MAX	3
-#define ANGLE_MAX			40
-#define 	ANGLE_MIN			-40
+#define ANGLE_MAX			COTE_MAX+450
+#define 	ANGLE_MIN			COTE_MAX-450
 
 
 static uint8_t nb_arete=0;
@@ -54,31 +54,44 @@ static THD_FUNCTION(Dessin,arg){
 			set_body_led(0);
 			switch(get_forme())
 			{
-				case TRIANGLE:
+				case 1:
 					if(nb_arete<TRIANGLE_ARETE_MAX){
 						if(right_motor_get_pos()<COTE_MAX && left_motor_get_pos()<COTE_MAX){
 							clear_not_moving();
 							right_motor_set_speed(600);
 							left_motor_set_speed(600);
 						}
-						else if(nb_arete<TRIANGLE_ARETE_MAX-1 && right_motor_get_pos()<=ANGLE_MAX && left_motor_get_pos()>=ANGLE_MIN){
+						else if(nb_arete<TRIANGLE_ARETE_MAX-1 && right_motor_get_pos()<ANGLE_MAX && left_motor_get_pos()>ANGLE_MIN){
 							right_motor_set_speed(600);
 							left_motor_set_speed(-600);
+						}
+						else{
+							nb_arete++;
+							right_motor_set_pos(0);
+							left_motor_set_pos(0);
 						}
 
 					}
 					else {
+						nb_arete=0;
 						right_motor_set_speed(0);
 						left_motor_set_speed(0);
+						right_motor_set_pos(0);
+						left_motor_set_pos(0);
 						set_not_moving();
+						clear_forme();
+						set_front_led(1);
 					}
 					break;
 
 				default:
+					nb_arete=0;
 					right_motor_set_pos(0);
+					left_motor_set_pos(0);
 					right_motor_set_speed(0);
 					left_motor_set_speed(0);
 					set_not_moving();
+					clear_forme();
 					break;
 			}
 		}
@@ -186,6 +199,9 @@ static THD_FUNCTION(Dessin,arg){
 void dessin_start(void){
 	chThdCreateStatic(waDessin, sizeof(waDessin), NORMALPRIO+10, Dessin, NULL);
 }
+
+
+
 
 
 

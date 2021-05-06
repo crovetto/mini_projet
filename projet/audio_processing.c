@@ -31,7 +31,7 @@ static float micBack_output[FFT_SIZE];
 #define MIN_VALUE_THRESHOLD	10000 
 
 #define MIN_FREQ			10	//we don't analyze before this index to not use resources for nothing
-#define FREQ_FORWARD		26	//250Hz //on change à 406 Hz pour le test
+#define FREQ_FORWARD		26	//250Hz //on change ï¿½ 406 Hz pour le test
 #define FREQ_LEFT		19	//296Hz
 #define FREQ_RIGHT		23	//359HZ
 #define FREQ_BACKWARD	26	//406Hz
@@ -110,7 +110,9 @@ uint8_t son_detection(float* data){
 	}
 	//TRIANGLE
 	if(max_norm_index >= FREQ_FORWARD_L && max_norm_index <= FREQ_FORWARD_H){
+		set_led(LED1,0);
 		return TRIANGLE;
+
 	}
 	//CARRE
 //	else if(max_norm_index >= FREQ_LEFT_L && max_norm_index <= FREQ_LEFT_H){
@@ -125,6 +127,7 @@ uint8_t son_detection(float* data){
 //		return TRUE;
 //	}
 	else{
+		set_led(LED1,1);
 		return 0;
 	}
 
@@ -210,7 +213,7 @@ void processAudioData(int16_t *data, uint16_t num_samples){
 		mustSend++;
 
 
-		if(not_moving==1){
+		if(not_moving){
 			forme = son_detection(micLeft_output);
 			set_led(LED3,1);
 		}
@@ -237,6 +240,12 @@ void set_not_moving(void)
 
 uint8_t get_forme(void)
 {
+	if(forme==0){
+		set_led(LED7,1);
+	}
+	else{
+		set_led(LED7,0);
+	}
 	return forme;
 }
 
