@@ -11,6 +11,9 @@
 #include <fft.h>
 #include <arm_math.h>
 
+//test
+#include <leds.h>
+
 //semaphore
 static BSEMAPHORE_DECL(sendToComputer_sem, TRUE);
 
@@ -43,7 +46,7 @@ static float micBack_output[FFT_SIZE];
 #define FREQ_BACKWARD_L		(FREQ_BACKWARD-1)
 #define FREQ_BACKWARD_H		(FREQ_BACKWARD+1)
 
-
+static uint8_t not_moving=1;
 static uint8_t forme = 0;
 
 /*
@@ -107,7 +110,7 @@ uint8_t son_detection(float* data){
 	}
 	//TRIANGLE
 	if(max_norm_index >= FREQ_FORWARD_L && max_norm_index <= FREQ_FORWARD_H){
-		return 1;
+		return TRIANGLE;
 	}
 	//CARRE
 //	else if(max_norm_index >= FREQ_LEFT_L && max_norm_index <= FREQ_LEFT_H){
@@ -206,8 +209,30 @@ void processAudioData(int16_t *data, uint16_t num_samples){
 		nb_samples = 0;
 		mustSend++;
 
-		forme = son_detection(micLeft_output);
+
+		if(not_moving==1){
+			forme = son_detection(micLeft_output);
+			set_led(LED3,1);
+		}
+		else{
+			set_led(LED3,0);
+		}
 	}
+}
+
+
+uint8_t get_not_moving(void)
+{
+	return not_moving;
+}
+
+void clear_not_moving(void)
+{
+	not_moving=0;
+}
+void set_not_moving(void)
+{
+	not_moving=1;
 }
 
 uint8_t get_forme(void)
