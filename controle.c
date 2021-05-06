@@ -9,6 +9,7 @@
 #include <sensors/VL53L0X/VL53L0X.h>
 #include "motors.h"
 #include <audio_processing.h>
+#include <stdbool.h>
 
 #include <leds.h>
 
@@ -19,38 +20,22 @@
 
 
 
-
-uint8_t nb_arete=0;
-
-
-static THD_WORKING_AREA(waObstacleDetection,256);
-static THD_FUNCTION(ObstacleDetection,arg){
-	(void) arg;
-	chRegSetThreadName(__FUNCTION__);
-
-	systime_t time;
-
-	while(1){
-		time = chVTGetSystemTime();
-		//thread senseur
-
-				if(VL53L0X_get_dist_mm()<50)
-				{
-					set_body_led(1);
-					right_motor_set_speed(0);
-					left_motor_set_speed(0);
-//					clear_forme();
-				}
-				else{
-					set_body_led(0);
-				}
-
-		//fin
-		chThdSleepUntilWindowed(time, time + MS2ST(10));
+int obstacle_detection(void){
+	if(VL53L0X_get_dist_mm()<50)
+	{
+		set_body_led(1);
+		right_motor_set_speed(0);
+		left_motor_set_speed(0);
+		return true;
+	}
+	else{
+		set_body_led(0);
+		return false;
 	}
 }
 
 
+uint8_t nb_arete=0;
 
 static THD_WORKING_AREA(waDessin,256);
 static THD_FUNCTION(Dessin,arg){
@@ -99,21 +84,25 @@ static THD_FUNCTION(Dessin,arg){
 
 			case TRIANGLE:
 
-				if(right_motor_get_pos()<COTE_MAX)
+				if(!obstacle_detection())
 				{
-					clear_not_moving();
-					right_motor_set_speed(600);
-					left_motor_set_speed(600);
-					set_front_led(1);
 					set_body_led(0);
-				}
-				else {
-					right_motor_set_speed(0);
-					left_motor_set_speed(0);
-					set_body_led(1);
-					set_not_moving();
+					if(right_motor_get_pos()<COTE_MAX)
+					{
+						clear_not_moving();
+						right_motor_set_speed(600);
+						left_motor_set_speed(600);
+						set_front_led(1);
+					}
+					else {
+						right_motor_set_speed(0);
+						left_motor_set_speed(0);
+						set_not_moving();
+					}
+
 				}
 				break;
+
 			default:
 				right_motor_set_pos(0);
 				right_motor_set_speed(0);
@@ -192,10 +181,6 @@ static THD_FUNCTION(Dessin,arg){
 
 }
 
-
-void tof_start(void){
-	chThdCreateStatic(waObstacleDetection, sizeof(waObstacleDetection), NORMALPRIO+10, ObstacleDetection, NULL);
-}
 
 void dessin_start(void){
 	chThdCreateStatic(waDessin, sizeof(waDessin), NORMALPRIO+10, Dessin, NULL);
