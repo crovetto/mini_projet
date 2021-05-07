@@ -215,6 +215,7 @@ void processAudioData(int16_t *data, uint16_t num_samples){
 
 		if(not_moving){
 			forme = son_detection(micLeft_output);
+			clear_not_moving();
 			set_led(LED3,1);
 		}
 		else{

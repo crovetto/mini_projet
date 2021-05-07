@@ -57,7 +57,7 @@ static THD_FUNCTION(Dessin,arg){
 				case 1:
 					if(nb_arete<TRIANGLE_ARETE_MAX){
 						if(right_motor_get_pos()<COTE_MAX && left_motor_get_pos()<COTE_MAX){
-							clear_not_moving();
+//							clear_not_moving();
 							right_motor_set_speed(600);
 							left_motor_set_speed(600);
 						}
@@ -70,7 +70,6 @@ static THD_FUNCTION(Dessin,arg){
 							right_motor_set_pos(0);
 							left_motor_set_pos(0);
 						}
-
 					}
 					else {
 						nb_arete=0;
@@ -79,7 +78,7 @@ static THD_FUNCTION(Dessin,arg){
 						right_motor_set_pos(0);
 						left_motor_set_pos(0);
 						set_not_moving();
-						clear_forme();
+						//clear_forme();
 						set_front_led(1);
 					}
 					break;
@@ -91,7 +90,7 @@ static THD_FUNCTION(Dessin,arg){
 					right_motor_set_speed(0);
 					left_motor_set_speed(0);
 					set_not_moving();
-					clear_forme();
+//					clear_forme();
 					break;
 			}
 		}
