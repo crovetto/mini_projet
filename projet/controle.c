@@ -78,7 +78,7 @@ static THD_FUNCTION(Dessin,arg){
 						right_motor_set_pos(0);
 						left_motor_set_pos(0);
 						set_not_moving();
-						//clear_forme();
+						clear_forme();
 						set_front_led(1);
 					}
 					break;
@@ -90,7 +90,7 @@ static THD_FUNCTION(Dessin,arg){
 					right_motor_set_speed(0);
 					left_motor_set_speed(0);
 					set_not_moving();
-//					clear_forme();
+					clear_forme();
 					break;
 			}
 		}
