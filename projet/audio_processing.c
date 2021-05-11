@@ -31,71 +31,28 @@ static float micBack_output[FFT_SIZE];
 #define MIN_VALUE_THRESHOLD	10000 
 
 #define MIN_FREQ			10	//we don't analyze before this index to not use resources for nothing
-#define FREQ_FORWARD		26	//250Hz //on change � 406 Hz pour le test
-#define FREQ_LEFT		19	//296Hz
-#define FREQ_RIGHT		23	//359HZ
-#define FREQ_BACKWARD	26	//406Hz
+#define FREQ_TRIANGLE		16	//250Hz
+#define FREQ_CARRE			19	//296Hz
+#define FREQ_RIGHT			23	//359HZ
+#define FREQ_LEFT			26	//406Hz
 #define MAX_FREQ			30	//we don't analyze after this index to not use resources for nothing
 
-#define FREQ_FORWARD_L		(FREQ_FORWARD-1)
-#define FREQ_FORWARD_H		(FREQ_FORWARD+1)
-#define FREQ_LEFT_L			(FREQ_LEFT-1)
-#define FREQ_LEFT_H			(FREQ_LEFT+1)
+#define FREQ_TRIANGLE_L			(FREQ_TRIANGLE-1)
+#define FREQ_TRIANGLE_H			(FREQ_TRIANGLE+1)
+#define FREQ_CARRE_L			(FREQ_CARRE-1)
+#define FREQ_CARRE_H			(FREQ_CARRE+1)
 #define FREQ_RIGHT_L			(FREQ_RIGHT-1)
 #define FREQ_RIGHT_H			(FREQ_RIGHT+1)
-#define FREQ_BACKWARD_L		(FREQ_BACKWARD-1)
-#define FREQ_BACKWARD_H		(FREQ_BACKWARD+1)
+#define FREQ_LEFT_L				(FREQ_LEFT-1)
+#define FREQ_LEFT_H				(FREQ_LEFT+1)
 
 static uint8_t not_moving=1;
 static uint8_t forme = 0;
 
-/*
-*	Simple function used to detect the highest value in a buffer
-*	and to execute a motor command depending on it
-*/
-void sound_remote(float* data){
-	float max_norm = MIN_VALUE_THRESHOLD;
-	int16_t max_norm_index = -1; 
-
-	//search for the highest peak
-	for(uint16_t i = MIN_FREQ ; i <= MAX_FREQ ; i++){
-		if(data[i] > max_norm){
-			max_norm = data[i];
-			max_norm_index = i;
-		}
-	}
-
-	//go forward
-	if(max_norm_index >= FREQ_FORWARD_L && max_norm_index <= FREQ_FORWARD_H){
-		left_motor_set_speed(600);
-		right_motor_set_speed(600);
-	}
-	//turn left
-	else if(max_norm_index >= FREQ_LEFT_L && max_norm_index <= FREQ_LEFT_H){
-		left_motor_set_speed(-600);
-		right_motor_set_speed(600);
-	}
-	//turn right
-	else if(max_norm_index >= FREQ_RIGHT_L && max_norm_index <= FREQ_RIGHT_H){
-		left_motor_set_speed(600);
-		right_motor_set_speed(-600);
-	}
-	//go backward
-	else if(max_norm_index >= FREQ_BACKWARD_L && max_norm_index <= FREQ_BACKWARD_H){
-		left_motor_set_speed(-600);
-		right_motor_set_speed(-600);
-	}
-	else{
-		left_motor_set_speed(0);
-		right_motor_set_speed(0);
-	}
-	
-}
-
 
 /*
-*	Simple fonction utilisée pour detecter la plus grande valeur dans un buffer
-*	et selon la fréquence, retourne une forme spécifique
+*	Simple fonction utilisee pour detecter la plus grande valeur dans un buffer
+*	et selon la frequence, retourne une forme specifique
 */
 uint8_t son_detection(float* data){
 	float max_norm = MIN_VALUE_THRESHOLD;
@@ -109,25 +66,23 @@ uint8_t son_detection(float* data){
 		}
 	}
 	//TRIANGLE
-	if(max_norm_index >= FREQ_FORWARD_L && max_norm_index <= FREQ_FORWARD_H){
-		set_led(LED1,0);
+	if(max_norm_index >= FREQ_TRIANGLE_L && max_norm_index <= FREQ_TRIANGLE_H){
 		return TRIANGLE;
 
 	}
 	//CARRE
-//	else if(max_norm_index >= FREQ_LEFT_L && max_norm_index <= FREQ_LEFT_H){
-//		return CARRE;
-//	}
-//	//turn right
-//	else if(max_norm_index >= FREQ_RIGHT_L && max_norm_index <= FREQ_RIGHT_H){
-//		return TRUE;
-//	}
-//	//go backward
-//	else if(max_norm_index >= FREQ_BACKWARD_L && max_norm_index <= FREQ_BACKWARD_H){
-//		return TRUE;
-//	}
+	else if(max_norm_index >= FREQ_CARRE_L && max_norm_index <= FREQ_CARRE_H){
+		return CARRE;
+	}
+	//courbe droite
+	else if(max_norm_index >= FREQ_RIGHT_L && max_norm_index <= FREQ_RIGHT_H){
+		return DROITE;
+	}
+	//courbe gauche
+	else if(max_norm_index >= FREQ_LEFT_L && max_norm_index <= FREQ_LEFT_H){
+	return GAUCHE;
+	}
 	else{
-		set_led(LED1,1);
 		return 0;
 	}
 
@@ -216,10 +171,6 @@ void processAudioData(int16_t *data, uint16_t num_samples){
 		if(not_moving){
 			forme = son_detection(micLeft_output);
 			clear_not_moving();
-			set_led(LED3,1);
-		}
-		else{
-			set_led(LED3,0);
 		}
 	}
 }
@@ -241,12 +192,6 @@ void set_not_moving(void)
 
 uint8_t get_forme(void)
 {
-	if(forme==0){
-		set_led(LED7,1);
-	}
-	else{
-		set_led(LED7,0);
-	}
 	return forme;
 }
 

@@ -17,7 +17,7 @@ typedef enum {
 	BACK_OUTPUT
 } BUFFER_NAME_t;
 
-enum forme { ZERO, TRIANGLE, CARRE };
+enum forme { ZERO, TRIANGLE, CARRE, DROITE, GAUCHE };
 
 /*
 *	redonne la valeur de la forme
