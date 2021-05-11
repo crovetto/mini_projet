@@ -46,8 +46,8 @@ static float micBack_output[FFT_SIZE];
 #define FREQ_LEFT_L				(FREQ_LEFT-1)
 #define FREQ_LEFT_H				(FREQ_LEFT+1)
 
-static uint8_t not_moving=1;
-static uint8_t forme = 0;
+static uint8_t moving=0;
+static uint8_t shape = 0;
 
 
 /*
@@ -168,36 +168,31 @@ void processAudioData(int16_t *data, uint16_t num_samples){
 		mustSend++;
 
 
-		if(not_moving){
-			forme = son_detection(micLeft_output);
-			clear_not_moving();
+		if(!moving){
+			shape = son_detection(micLeft_output);
+			set_moving();
 		}
 	}
 }
 
 
-uint8_t get_not_moving(void)
+void set_moving(void)
 {
-	return not_moving;
+	moving=1;
+}
+void clear_moving(void)
+{
+	moving=0;
 }
 
-void clear_not_moving(void)
+uint8_t get_shape(void)
 {
-	not_moving=0;
-}
-void set_not_moving(void)
-{
-	not_moving=1;
+	return shape;
 }
 
-uint8_t get_forme(void)
+void clear_shape(void)
 {
-	return forme;
-}
-
-void clear_forme(void)
-{
-	forme=0;
+	shape=0;
 }
 
 void wait_send_to_computer(void){

@@ -20,13 +20,25 @@ typedef enum {
 enum forme { ZERO, TRIANGLE, CARRE, DROITE, GAUCHE };
 
 /*
-*	redonne la valeur de la forme
+*	Flag that enable movement 
 */
-uint8_t get_forme(void);
-void clear_forme(void);
-void set_not_moving(void);
-void clear_not_moving(void);
-uint8_t get_not_moving(void);
+void set_moving(void);
+
+/*
+*	Flag that disable movement 
+*/
+void clear_moving(void);
+/*
+*	Give the value of the static : shape 
+*/
+uint8_t get_shape(void);
+/*
+*	Clear the value of the static : shape 
+*/
+void clear_shape(void);
+
+
+
 
 void processAudioData(int16_t *data, uint16_t num_samples);
 
