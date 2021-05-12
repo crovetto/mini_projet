@@ -38,17 +38,17 @@ static uint16_t count_pause=0;
 
 /**************************MOTORS***********************************/
 
-void go_forward(uint8_t speed){
+void go_forward(uint16_t speed){
     right_motor_set_speed(speed);
     left_motor_set_speed(speed);
 }
 
-void turn_left(uint8_t speed){
+void turn_left(uint16_t speed){
     right_motor_set_speed(speed);
     left_motor_set_speed(-speed);
 }
 
-void turn_right(uint8_t speed){
+void turn_right(uint16_t speed){
     right_motor_set_speed(-speed);
     left_motor_set_speed(speed);
 }
@@ -114,12 +114,11 @@ static THD_FUNCTION(Dessin,arg){
 						}
 						else{
 							nb_arete++;
-							go_forward(STOP);
+							clear_pos();
 						}
 					}
 					else {
 						reset();
-
 					}
 					break;
 
