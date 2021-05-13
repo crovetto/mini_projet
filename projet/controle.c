@@ -13,25 +13,32 @@
 
 #include <leds.h>
 
+#define DIST_OBSTACLE			80 //en mm
 #define STOP					0
-#define GO 						600
+#define GO 						400 // Vitesse des moteurs step/s
 
-#define LONGUEUR				500 //longueur des cotes des formes
+#define PI                 		3.1415926536f
+#define NB_STEP_ONE_TURN		1000 // Nombre de step pour un tour du moteur
+#define WHEEL_PERIMETER			37.7f
+#define WHEEL_DISTANCE      	8    //Ecart des roues en cm
+#define PERIMETER_EPUCK         (PI * WHEEL_DISTANCE) //en cm
+
+#define LONGUEUR				10 * NB_STEP_ONE_TURN/WHEEL_PERIMETER	//Longueur des cotes des formes 10 cm
 //TRIANGLE
 #define T_ARETE_MAX				3
-#define T_ANGLE_MAX				LONGUEUR+450
-#define T_ANGLE_MIN				LONGUEUR-450
+#define T_ANGLE_MAX				LONGUEUR + PERIMETER_EPUCK * NB_STEP_ONE_TURN/(WHEEL_PERIMETER*2.75f)
+#define T_ANGLE_MIN				LONGUEUR - PERIMETER_EPUCK * NB_STEP_ONE_TURN/(WHEEL_PERIMETER*2.75f)
 //CARRE
 #define C_ARETE_MAX				4
-#define C_ANGLE_MAX				LONGUEUR+340
-#define C_ANGLE_MIN				LONGUEUR-340
+#define C_ANGLE_MAX				LONGUEUR + PERIMETER_EPUCK * NB_STEP_ONE_TURN/(WHEEL_PERIMETER*3.5f)
+#define C_ANGLE_MIN				LONGUEUR - PERIMETER_EPUCK * NB_STEP_ONE_TURN/(WHEEL_PERIMETER*3.5f)
 //COURBES
-#define LONGUEUR_COURBE			200
+#define LONGUEUR_COURBE			3 * NB_STEP_ONE_TURN/WHEEL_PERIMETER 	// 3 cm
 #define COURBE_ARETE_MAX		5
 #define COURBE_ANGLE_MAX		LONGUEUR_COURBE+37
 #define COURBE_ANGLE_MIN		LONGUEUR_COURBE-37
 
-#define TIME_RESET					300 // si l'obstacle reste 3s, le robot s'arr�te
+#define TIME_RESET					300 // Si l'obstacle reste 3s, le robot s'arrete
 
 static uint8_t nb_arete=0;
 static uint16_t count_pause=0;
@@ -69,7 +76,7 @@ void reset(void){
 }
 
 bool obstacle_detection(void){
-	if(VL53L0X_get_dist_mm()<50)
+	if(VL53L0X_get_dist_mm()<DIST_OBSTACLE)
 	{
 		set_body_led(1);
 		go_forward(STOP);
