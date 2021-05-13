@@ -40,6 +40,22 @@ void reset(void);
 */
 bool obstacle_detection(void);
 
+/**
+* @brief   Do a triangle.
+*/
+void go_triangle(void);
+/**
+* @brief   Do a square.
+*/
+void go_square(void);
+/**
+* @brief   Go right.
+*/
+void go_right(void);
+/**
+* @brief   go left.
+*/
+void go_left(void);
 
 /*
 *	Enable thread

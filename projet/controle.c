@@ -31,7 +31,7 @@
 #define COURBE_ANGLE_MAX		LONGUEUR_COURBE+37
 #define COURBE_ANGLE_MIN		LONGUEUR_COURBE-37
 
-#define TIME_RESET					300 // si l'obstacle reste 3s, le robot s'arrête
+#define TIME_RESET					300 // si l'obstacle reste 3s, le robot s'arrï¿½te
 
 static uint8_t nb_arete=0;
 static uint16_t count_pause=0;
@@ -90,6 +90,78 @@ bool obstacle_detection(void){
 }
 
 
+void go_triangle(void){
+	if(nb_arete<T_ARETE_MAX){
+		if(right_motor_get_pos()<LONGUEUR && left_motor_get_pos()<LONGUEUR){
+			go_forward(GO);
+		}
+		else if(nb_arete<T_ARETE_MAX-1 && right_motor_get_pos()<T_ANGLE_MAX && left_motor_get_pos()>T_ANGLE_MIN){
+			turn_left(GO);
+		}
+		else{
+			nb_arete++;
+			clear_pos();
+		}
+	}
+	else {
+		reset();
+	}
+}
+
+void go_square(void){
+	if(nb_arete<C_ARETE_MAX){
+		if(right_motor_get_pos()<LONGUEUR && left_motor_get_pos()<LONGUEUR){
+			go_forward(GO);
+		}
+		else if(nb_arete < C_ARETE_MAX-1 && right_motor_get_pos() < C_ANGLE_MAX && left_motor_get_pos() > C_ANGLE_MIN){
+			turn_left(GO);
+		}
+		else{
+			nb_arete++;
+			clear_pos();
+		}
+	}
+	else {
+		reset();
+	}
+}
+
+void go_right(void){
+	if(nb_arete<COURBE_ARETE_MAX){
+		if(right_motor_get_pos()<LONGUEUR_COURBE && left_motor_get_pos()<LONGUEUR_COURBE){
+			go_forward(GO);
+		}
+		else if(nb_arete < COURBE_ARETE_MAX-1 && right_motor_get_pos() > COURBE_ANGLE_MIN && left_motor_get_pos() < COURBE_ANGLE_MAX){
+			turn_right(GO);
+		}
+		else{
+			nb_arete++;
+			clear_pos();
+		}
+	}
+	else {
+		reset();
+	}
+}
+
+void go_left(void){
+	if(nb_arete<COURBE_ARETE_MAX){
+		if(right_motor_get_pos()<LONGUEUR_COURBE && left_motor_get_pos()<LONGUEUR_COURBE){
+			go_forward(GO);
+		}
+		else if(nb_arete < COURBE_ARETE_MAX-1 && right_motor_get_pos() < COURBE_ANGLE_MAX && left_motor_get_pos() > COURBE_ANGLE_MIN ){
+			turn_left(GO);
+		}
+		else{
+			nb_arete++;
+			clear_pos();
+		}
+	}
+	else {
+		reset();
+	}
+}
+
 
 static THD_WORKING_AREA(waDessin,256);
 static THD_FUNCTION(Dessin,arg){
@@ -105,74 +177,78 @@ static THD_FUNCTION(Dessin,arg){
 			switch(get_shape())
 			{
 				case TRIANGLE:
-					if(nb_arete<T_ARETE_MAX){
-						if(right_motor_get_pos()<LONGUEUR && left_motor_get_pos()<LONGUEUR){
-							go_forward(GO);
-						}
-						else if(nb_arete<T_ARETE_MAX-1 && right_motor_get_pos()<T_ANGLE_MAX && left_motor_get_pos()>T_ANGLE_MIN){
-							turn_left(GO);
-						}
-						else{
-							nb_arete++;
-							clear_pos();
-						}
-					}
-					else {
-						reset();
-					}
+//					if(nb_arete<T_ARETE_MAX){
+//						if(right_motor_get_pos()<LONGUEUR && left_motor_get_pos()<LONGUEUR){
+//							go_forward(GO);
+//						}
+//						else if(nb_arete<T_ARETE_MAX-1 && right_motor_get_pos()<T_ANGLE_MAX && left_motor_get_pos()>T_ANGLE_MIN){
+//							turn_left(GO);
+//						}
+//						else{
+//							nb_arete++;
+//							clear_pos();
+//						}
+//					}
+//					else {
+//						reset();
+//					}
+					go_triangle();
 					break;
 
 				case CARRE:
-					if(nb_arete<C_ARETE_MAX){
-						if(right_motor_get_pos()<LONGUEUR && left_motor_get_pos()<LONGUEUR){
-							go_forward(GO);
-						}
-						else if(nb_arete < C_ARETE_MAX-1 && right_motor_get_pos() < C_ANGLE_MAX && left_motor_get_pos() > C_ANGLE_MIN){
-							turn_left(GO);
-						}
-						else{
-							nb_arete++;
-							clear_pos();
-						}
-					}
-					else {
-						reset();
-					}
+//					if(nb_arete<C_ARETE_MAX){
+//						if(right_motor_get_pos()<LONGUEUR && left_motor_get_pos()<LONGUEUR){
+//							go_forward(GO);
+//						}
+//						else if(nb_arete < C_ARETE_MAX-1 && right_motor_get_pos() < C_ANGLE_MAX && left_motor_get_pos() > C_ANGLE_MIN){
+//							turn_left(GO);
+//						}
+//						else{
+//							nb_arete++;
+//							clear_pos();
+//						}
+//					}
+//					else {
+//						reset();
+//					}
+					go_square();
 					break;
 
 				case DROITE:
-					if(nb_arete<COURBE_ARETE_MAX){
-						if(right_motor_get_pos()<LONGUEUR_COURBE && left_motor_get_pos()<LONGUEUR_COURBE){
-							go_forward(GO);
-						}
-						else if(nb_arete < COURBE_ARETE_MAX-1 && right_motor_get_pos() > COURBE_ANGLE_MIN && left_motor_get_pos() < COURBE_ANGLE_MAX){
-							turn_right(GO);
-						}
-						else{
-							nb_arete++;
-							clear_pos();
-						}
-					}
-					else {
-						reset();
-					}
+//					if(nb_arete<COURBE_ARETE_MAX){
+//						if(right_motor_get_pos()<LONGUEUR_COURBE && left_motor_get_pos()<LONGUEUR_COURBE){
+//							go_forward(GO);
+//						}
+//						else if(nb_arete < COURBE_ARETE_MAX-1 && right_motor_get_pos() > COURBE_ANGLE_MIN && left_motor_get_pos() < COURBE_ANGLE_MAX){
+//							turn_right(GO);
+//						}
+//						else{
+//							nb_arete++;
+//							clear_pos();
+//						}
+//					}
+//					else {
+//						reset();
+//					}
+					go_right();
 					break;
 				case GAUCHE:
-					if(nb_arete<COURBE_ARETE_MAX){
-						if(right_motor_get_pos()<LONGUEUR_COURBE && left_motor_get_pos()<LONGUEUR_COURBE){
-							go_forward(GO);
-						}
-						else if(nb_arete < COURBE_ARETE_MAX-1 && right_motor_get_pos() < COURBE_ANGLE_MAX && left_motor_get_pos() > COURBE_ANGLE_MIN ){
-							turn_left(GO);
-						}
-						else{
-							nb_arete++;
-							clear_pos();
-						}
-					}
-					else {
-						reset();
-					}
+//					if(nb_arete<COURBE_ARETE_MAX){
+//						if(right_motor_get_pos()<LONGUEUR_COURBE && left_motor_get_pos()<LONGUEUR_COURBE){
+//							go_forward(GO);
+//						}
+//						else if(nb_arete < COURBE_ARETE_MAX-1 && right_motor_get_pos() < COURBE_ANGLE_MAX && left_motor_get_pos() > COURBE_ANGLE_MIN ){
+//							turn_left(GO);
+//						}
+//						else{
+//							nb_arete++;
+//							clear_pos();
+//						}
+//					}
+//					else {
+//						reset();
+//					}
+					go_left();
 					break;
 
 				default:
