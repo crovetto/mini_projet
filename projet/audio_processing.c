@@ -101,29 +101,22 @@ void processAudioData(int16_t *data, uint16_t num_samples){
 
 	/*
 	*
-	*	We get 160 samples per mic every 10ms
+	*	We get 160 samples from the back mic every 10ms
 	*	So we fill the samples buffers to reach
 	*	1024 samples, then we compute the FFTs.
 	*
 	*/
-
 	static uint16_t nb_samples = 0;
 	static uint8_t mustSend = 0;
 
 	//loop to fill the buffers
 	for(uint16_t i = 0 ; i < num_samples ; i+=4){
 		//construct an array of complex numbers. Put 0 to the imaginary part
-		micRight_cmplx_input[nb_samples] = (float)data[i + MIC_RIGHT];
-		micLeft_cmplx_input[nb_samples] = (float)data[i + MIC_LEFT];
 		micBack_cmplx_input[nb_samples] = (float)data[i + MIC_BACK];
-		micFront_cmplx_input[nb_samples] = (float)data[i + MIC_FRONT];
 
 		nb_samples++;
 
-		micRight_cmplx_input[nb_samples] = 0;
-		micLeft_cmplx_input[nb_samples] = 0;
 		micBack_cmplx_input[nb_samples] = 0;
-		micFront_cmplx_input[nb_samples] = 0;
 
 		nb_samples++;
 
@@ -139,10 +132,6 @@ void processAudioData(int16_t *data, uint16_t num_samples){
 		*	This FFT function stores the results in the input buffer given.
 		*	This is an "In Place" function. 
 		*/
-
-		doFFT_optimized(FFT_SIZE, micRight_cmplx_input);
-		doFFT_optimized(FFT_SIZE, micLeft_cmplx_input);
-		doFFT_optimized(FFT_SIZE, micFront_cmplx_input);
 		doFFT_optimized(FFT_SIZE, micBack_cmplx_input);
 
 		/*	Magnitude processing
@@ -152,9 +141,6 @@ void processAudioData(int16_t *data, uint16_t num_samples){
 		*	real numbers.
 		*
 		*/
-		arm_cmplx_mag_f32(micRight_cmplx_input, micRight_output, FFT_SIZE);
-		arm_cmplx_mag_f32(micLeft_cmplx_input, micLeft_output, FFT_SIZE);
-		arm_cmplx_mag_f32(micFront_cmplx_input, micFront_output, FFT_SIZE);
 		arm_cmplx_mag_f32(micBack_cmplx_input, micBack_output, FFT_SIZE);
 
 		//sends only one FFT result over 10 for 1 mic to not flood the computer
@@ -169,7 +155,7 @@ void processAudioData(int16_t *data, uint16_t num_samples){
 
 
 		if(!moving){
-			shape = son_detection(micLeft_output);
+			shape = son_detection(micBack_output);
 			set_moving();
 		}
 	}

@@ -25,11 +25,6 @@
 #include <arm_math.h>
 #include <controle.h>
 
-//uncomment to send the FFTs results from the real microphones
-#define SEND_FROM_MIC
-
-//uncomment to use double buffering to send the FFT to the computer
-#define DOUBLE_BUFFERING
 
 void SendUint8ToComputer(uint8_t* data, uint16_t size)
 {
@@ -83,49 +78,36 @@ int main(void)
     usb_start();
     //starts timer 11
     timer11_start();
-    	//inits the motors
-    	motors_init();
-    	//start TOF
-    	VL53L0X_start();
-    	//init thread
-    	dessin_start();
-    	//init thread
-    	//tof_start();
+	//inits the motors
+	motors_init();
+	//start TOF
+	VL53L0X_start();
+	//init thread
+	dessin_start();
+	//init thread
+	//tof_start();
 
 
 
-
-    	//temp tab used to store values in complex_float format
-	//needed bx doFFT_c
-//	static complex_float temp_tab[FFT_SIZE];
 	//send_tab is used to save the state of the buffer to send (double buffering)
 	//to avoid modifications of the buffer while sending it
 	static float send_tab[FFT_SIZE];
 
 
-	// A enlever
-	#ifdef SEND_FROM_MIC
-		//starts the microphones processing thread.
-		//it calls the callback given in parameter when samples are ready
-		mic_start(&processAudioData);
-	#endif  /* SEND_FROM_MIC */
-
+	//starts the microphones processing thread.
+	//it calls the callback given in parameter when samples are ready
+	mic_start(&processAudioData);
 
 
     /* Infinite loop. */
     while (1) {
 
-    	/*A enlever ifdef ? */
-	//#ifdef SEND_FROM_MIC
 			//waits until a result must be sent to the computer
 			wait_send_to_computer();
 
-			/*A enlever ifdef ? */
-	//#ifdef DOUBLE_BUFFERING
 			//we copy the buffer to avoid conflicts
-			arm_copy_f32(get_audio_buffer_ptr(LEFT_OUTPUT), send_tab, FFT_SIZE);
-			SendFloatToComputer((BaseSequentialStream *) &SD3, send_tab, FFT_SIZE);   // Nécessaire ?
-
+			arm_copy_f32(get_audio_buffer_ptr(BACK_OUTPUT), send_tab, FFT_SIZE);
+			SendFloatToComputer((BaseSequentialStream *) &SD3, send_tab, FFT_SIZE);
 
 
     	//waits 1 second

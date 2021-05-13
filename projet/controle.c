@@ -177,77 +177,17 @@ static THD_FUNCTION(Dessin,arg){
 			switch(get_shape())
 			{
 				case TRIANGLE:
-//					if(nb_arete<T_ARETE_MAX){
-//						if(right_motor_get_pos()<LONGUEUR && left_motor_get_pos()<LONGUEUR){
-//							go_forward(GO);
-//						}
-//						else if(nb_arete<T_ARETE_MAX-1 && right_motor_get_pos()<T_ANGLE_MAX && left_motor_get_pos()>T_ANGLE_MIN){
-//							turn_left(GO);
-//						}
-//						else{
-//							nb_arete++;
-//							clear_pos();
-//						}
-//					}
-//					else {
-//						reset();
-//					}
 					go_triangle();
 					break;
 
 				case CARRE:
-//					if(nb_arete<C_ARETE_MAX){
-//						if(right_motor_get_pos()<LONGUEUR && left_motor_get_pos()<LONGUEUR){
-//							go_forward(GO);
-//						}
-//						else if(nb_arete < C_ARETE_MAX-1 && right_motor_get_pos() < C_ANGLE_MAX && left_motor_get_pos() > C_ANGLE_MIN){
-//							turn_left(GO);
-//						}
-//						else{
-//							nb_arete++;
-//							clear_pos();
-//						}
-//					}
-//					else {
-//						reset();
-//					}
 					go_square();
 					break;
 
 				case DROITE:
-//					if(nb_arete<COURBE_ARETE_MAX){
-//						if(right_motor_get_pos()<LONGUEUR_COURBE && left_motor_get_pos()<LONGUEUR_COURBE){
-//							go_forward(GO);
-//						}
-//						else if(nb_arete < COURBE_ARETE_MAX-1 && right_motor_get_pos() > COURBE_ANGLE_MIN && left_motor_get_pos() < COURBE_ANGLE_MAX){
-//							turn_right(GO);
-//						}
-//						else{
-//							nb_arete++;
-//							clear_pos();
-//						}
-//					}
-//					else {
-//						reset();
-//					}
 					go_right();
 					break;
 				case GAUCHE:
-//					if(nb_arete<COURBE_ARETE_MAX){
-//						if(right_motor_get_pos()<LONGUEUR_COURBE && left_motor_get_pos()<LONGUEUR_COURBE){
-//							go_forward(GO);
-//						}
-//						else if(nb_arete < COURBE_ARETE_MAX-1 && right_motor_get_pos() < COURBE_ANGLE_MAX && left_motor_get_pos() > COURBE_ANGLE_MIN ){
-//							turn_left(GO);
-//						}
-//						else{
-//							nb_arete++;
-//							clear_pos();
-//						}
-//					}
-//					else {
-//						reset();
-//					}
 					go_left();
 					break;
 
