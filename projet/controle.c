@@ -15,25 +15,29 @@
 
 #define DIST_OBSTACLE			80 //en mm
 #define STOP					0
-#define GO 						400 // Vitesse des moteurs step/s
+#define GO 						400 // Vitesse des moteurs step/s : 15.08 cm/s
 
 #define PI                 		3.1415926536f
+
 #define NB_STEP_ONE_TURN		1000 // Nombre de step pour un tour du moteur
 #define WHEEL_PERIMETER			37.7f
-#define WHEEL_DISTANCE      	8    //Ecart des roues en cm
-#define PERIMETER_EPUCK         (PI * WHEEL_DISTANCE) //en cm
 
-#define LONGUEUR				10 * NB_STEP_ONE_TURN/WHEEL_PERIMETER	//Longueur des cotes des formes 10 cm
+#define	CM_TO_STEP(x)			x *	(NB_STEP_ONE_TURN/WHEEL_PERIMETER)
+
+#define WHEEL_DISTANCE      	8    //Ecart des roues en cm
+#define PERIMETER_EPUCK         PI * WHEEL_DISTANCE //en cm
+
+#define LONGUEUR				CM_TO_STEP(10)	//Longueur des cotes des formes : 10 cm
 //TRIANGLE
 #define T_ARETE_MAX				3
-#define T_ANGLE_MAX				LONGUEUR + PERIMETER_EPUCK * NB_STEP_ONE_TURN/(WHEEL_PERIMETER*2.75f)
-#define T_ANGLE_MIN				LONGUEUR - PERIMETER_EPUCK * NB_STEP_ONE_TURN/(WHEEL_PERIMETER*2.75f)
+#define T_ANGLE_MAX				LONGUEUR + CM_TO_STEP(PERIMETER_EPUCK/2.75f) // longueur + angle supplémentaire de 60 degré en step
+#define T_ANGLE_MIN				LONGUEUR - CM_TO_STEP(PERIMETER_EPUCK/2.75f) //longueur - angle supplémentaire de 60 degré en step
 //CARRE
 #define C_ARETE_MAX				4
-#define C_ANGLE_MAX				LONGUEUR + PERIMETER_EPUCK * NB_STEP_ONE_TURN/(WHEEL_PERIMETER*3.5f)
-#define C_ANGLE_MIN				LONGUEUR - PERIMETER_EPUCK * NB_STEP_ONE_TURN/(WHEEL_PERIMETER*3.5f)
+#define C_ANGLE_MAX				LONGUEUR + CM_TO_STEP(PERIMETER_EPUCK/3.5f) //longueur + angle supplémentaire de 90 degré en step
+#define C_ANGLE_MIN				LONGUEUR - CM_TO_STEP(PERIMETER_EPUCK/3.5f)	//longueur - angle supplémentaire de 90 degré en step
 //COURBES
-#define LONGUEUR_COURBE			3 * NB_STEP_ONE_TURN/WHEEL_PERIMETER 	// 3 cm
+#define LONGUEUR_COURBE			3 * (NB_STEP_ONE_TURN/WHEEL_PERIMETER) 	// 3 cm
 #define COURBE_ARETE_MAX		5
 #define COURBE_ANGLE_MAX		LONGUEUR_COURBE+37
 #define COURBE_ANGLE_MIN		LONGUEUR_COURBE-37
