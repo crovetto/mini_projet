@@ -27,17 +27,18 @@
 #define WHEEL_DISTANCE      	8    //Ecart des roues en cm
 #define PERIMETER_EPUCK         PI * WHEEL_DISTANCE //en cm
 
-#define LONGUEUR				CM_TO_STEP(10)	//Longueur des cotes des formes : 10 cm
+#define LONGUEUR				CM_TO_STEP(12) 	//Longueur des cotes des formes : 10 cm
+
 //TRIANGLE
 #define T_ARETE_MAX				3
-#define T_ANGLE_MAX				LONGUEUR + CM_TO_STEP(PERIMETER_EPUCK/2.75f) // longueur + angle supplémentaire de 60 degré en step
-#define T_ANGLE_MIN				LONGUEUR - CM_TO_STEP(PERIMETER_EPUCK/2.75f) //longueur - angle supplémentaire de 60 degré en step
+#define T_ANGLE_MAX				LONGUEUR + CM_TO_STEP(PERIMETER_EPUCK/2.78f) // longueur + angle supplémentaire de 60 degré en step
+#define T_ANGLE_MIN				LONGUEUR - CM_TO_STEP(PERIMETER_EPUCK/2.78f) //longueur - angle supplémentaire de 60 degré en step
 //CARRE
 #define C_ARETE_MAX				4
-#define C_ANGLE_MAX				LONGUEUR + CM_TO_STEP(PERIMETER_EPUCK/3.5f) //longueur + angle supplémentaire de 90 degré en step
-#define C_ANGLE_MIN				LONGUEUR - CM_TO_STEP(PERIMETER_EPUCK/3.5f)	//longueur - angle supplémentaire de 90 degré en step
+#define C_ANGLE_MAX				LONGUEUR + CM_TO_STEP(PERIMETER_EPUCK/3.665f) //longueur + angle supplémentaire de 90 degré en step
+#define C_ANGLE_MIN				LONGUEUR - CM_TO_STEP(PERIMETER_EPUCK/3.66f)	//longueur - angle supplémentaire de 90 degré en step
 //COURBES
-#define LONGUEUR_COURBE			3 * (NB_STEP_ONE_TURN/WHEEL_PERIMETER) 	// 3 cm
+#define LONGUEUR_COURBE			2 * (NB_STEP_ONE_TURN/WHEEL_PERIMETER) 	// 2 cm
 #define COURBE_ARETE_MAX		5
 #define COURBE_ANGLE_MAX		LONGUEUR_COURBE+37
 #define COURBE_ANGLE_MIN		LONGUEUR_COURBE-37

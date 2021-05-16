@@ -31,20 +31,20 @@ static float micBack_output[FFT_SIZE];
 #define MIN_VALUE_THRESHOLD	10000 
 
 #define MIN_FREQ			10	//we don't analyze before this index to not use resources for nothing
-#define FREQ_TRIANGLE		16	//250Hz
-#define FREQ_CARRE			19	//296Hz
-#define FREQ_RIGHT			23	//359HZ
-#define FREQ_LEFT			26	//406Hz
-#define MAX_FREQ			30	//we don't analyze after this index to not use resources for nothing
+#define FREQ_TRIANGLE		21	//328Hz
+#define FREQ_CARRE			24	//359Hz
+#define FREQ_RIGHT			31	//480HZ
+#define FREQ_LEFT			35	//540Hz
+#define MAX_FREQ			40	//we don't analyze after this index to not use resources for nothing
 
-#define FREQ_TRIANGLE_L			(FREQ_TRIANGLE-1)
-#define FREQ_TRIANGLE_H			(FREQ_TRIANGLE+1)
-#define FREQ_CARRE_L			(FREQ_CARRE-1)
-#define FREQ_CARRE_H			(FREQ_CARRE+1)
-#define FREQ_RIGHT_L			(FREQ_RIGHT-1)
-#define FREQ_RIGHT_H			(FREQ_RIGHT+1)
-#define FREQ_LEFT_L				(FREQ_LEFT-1)
-#define FREQ_LEFT_H				(FREQ_LEFT+1)
+#define FREQ_TRIANGLE_L			(FREQ_TRIANGLE-0.1f)
+#define FREQ_TRIANGLE_H			(FREQ_TRIANGLE+0.1f)
+#define FREQ_CARRE_L			(FREQ_CARRE-0.1f)
+#define FREQ_CARRE_H			(FREQ_CARRE+0.1f)
+#define FREQ_RIGHT_L			(FREQ_RIGHT-0.1f)
+#define FREQ_RIGHT_H			(FREQ_RIGHT+0.1f)
+#define FREQ_LEFT_L				(FREQ_LEFT-0.1f)
+#define FREQ_LEFT_H				(FREQ_LEFT+0.1f)
 
 static uint8_t moving=0;
 static uint8_t shape = 0;
