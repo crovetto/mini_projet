@@ -19,6 +19,11 @@ typedef enum {
 
 enum forme { ZERO, TRIANGLE, CARRE, DROITE, GAUCHE };
 
+uint8_t son_detection(float* data);
+
+
+void processAudioData(int16_t *data, uint16_t num_samples);
+
 /*
 *	Flag that enable movement 
 */
@@ -36,12 +41,6 @@ uint8_t get_shape(void);
 *	Clear the value of the static : shape 
 */
 void clear_shape(void);
-
-
-
-
-void processAudioData(int16_t *data, uint16_t num_samples);
-
 /*
 *	put the invoking thread into sleep until it can process the audio datas
 */

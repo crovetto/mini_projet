@@ -11,7 +11,6 @@
 #include <fft.h>
 #include <arm_math.h>
 
-//test
 #include <leds.h>
 
 //semaphore

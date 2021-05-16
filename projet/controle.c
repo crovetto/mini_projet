@@ -12,8 +12,9 @@
 #include <stdbool.h>
 
 #include <leds.h>
+#include <controle.h>
 
-#define DIST_OBSTACLE			80 //en mm
+#define DIST_OBSTACLE			80 	//en mm
 #define STOP					0
 #define GO 						400 // Vitesse des moteurs step/s : 15.08 cm/s
 
@@ -27,7 +28,7 @@
 #define WHEEL_DISTANCE      	8    //Ecart des roues en cm
 #define PERIMETER_EPUCK         PI * WHEEL_DISTANCE //en cm
 
-#define LONGUEUR				CM_TO_STEP(12) 	//Longueur des cotes des formes : 10 cm
+#define LONGUEUR				CM_TO_STEP(12) 	//Longueur des cotes des formes : 12 cm
 
 //TRIANGLE
 #define T_ARETE_MAX				3
@@ -36,14 +37,14 @@
 //CARRE
 #define C_ARETE_MAX				4
 #define C_ANGLE_MAX				LONGUEUR + CM_TO_STEP(PERIMETER_EPUCK/3.665f) //longueur + angle supplémentaire de 90 degré en step
-#define C_ANGLE_MIN				LONGUEUR - CM_TO_STEP(PERIMETER_EPUCK/3.66f)	//longueur - angle supplémentaire de 90 degré en step
+#define C_ANGLE_MIN				LONGUEUR - CM_TO_STEP(PERIMETER_EPUCK/3.66f)//longueur - angle supplémentaire de 90 degré en step
 //COURBES
 #define LONGUEUR_COURBE			2 * (NB_STEP_ONE_TURN/WHEEL_PERIMETER) 	// 2 cm
 #define COURBE_ARETE_MAX		5
 #define COURBE_ANGLE_MAX		LONGUEUR_COURBE+37
 #define COURBE_ANGLE_MIN		LONGUEUR_COURBE-37
 
-#define TIME_RESET					300 // Si l'obstacle reste 3s, le robot s'arrete
+#define TIME_RESET					300 // temps : 3s
 
 static uint8_t nb_arete=0;
 static uint16_t count_pause=0;
@@ -174,7 +175,6 @@ void go_left(void){
 	}
 }
 
-
 static THD_WORKING_AREA(waDessin,256);
 static THD_FUNCTION(Dessin,arg){
 	(void) arg;
@@ -219,7 +219,4 @@ static THD_FUNCTION(Dessin,arg){
 void dessin_start(void){
 	chThdCreateStatic(waDessin, sizeof(waDessin), NORMALPRIO+10, Dessin, NULL);
 }
-
-
-
 

@@ -11,17 +11,17 @@
  /**
  * @brief   Set the same speed to the motors.
  */
-void go_forward(uint8_t speed);
+void go_forward(uint16_t speed);
 
  /**
  * @brief   Set the speed to the motors to turn left.
  */
-void turn_left(uint8_t speed);
+void turn_left(uint16_t speed);
 
  /**
  * @brief   Set the speed to the motors to turn right.
  */
-void turn_right(uint8_t speed);
+void turn_right(uint16_t speed);
 
 /**
  * @brief 	sets the position counter of both motors to zero

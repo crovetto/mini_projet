@@ -4,8 +4,6 @@
 #include <string.h>
 #include <math.h>
 
-//test
-
 #include <leds.h>
 #include "ch.h"
 #include "hal.h"
@@ -84,9 +82,6 @@ int main(void)
 	VL53L0X_start();
 	//init thread
 	dessin_start();
-	//init thread
-	//tof_start();
-
 
 
 	//send_tab is used to save the state of the buffer to send (double buffering)
@@ -102,16 +97,13 @@ int main(void)
     /* Infinite loop. */
     while (1) {
 
-			//waits until a result must be sent to the computer
-			wait_send_to_computer();
+		//waits until a result must be sent to the computer
+		wait_send_to_computer();
 
-			//we copy the buffer to avoid conflicts
-			arm_copy_f32(get_audio_buffer_ptr(BACK_OUTPUT), send_tab, FFT_SIZE);
-			SendFloatToComputer((BaseSequentialStream *) &SD3, send_tab, FFT_SIZE);
+		//we copy the buffer to avoid conflicts
+		arm_copy_f32(get_audio_buffer_ptr(BACK_OUTPUT), send_tab, FFT_SIZE);
+		SendFloatToComputer((BaseSequentialStream *) &SD3, send_tab, FFT_SIZE);
 
-
-    	//waits 1 second
-    //chThdSleepMilliseconds(1000);
     }
 }
 
