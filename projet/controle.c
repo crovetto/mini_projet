@@ -32,12 +32,12 @@
 
 //TRIANGLE
 #define T_ARETE_MAX				3
-#define T_ANGLE_MAX				LONGUEUR + CM_TO_STEP(PERIMETER_EPUCK/2.78f) // longueur + angle supplémentaire de 60 degré en step
-#define T_ANGLE_MIN				LONGUEUR - CM_TO_STEP(PERIMETER_EPUCK/2.78f) //longueur - angle supplémentaire de 60 degré en step
+#define T_ANGLE_MAX				LONGUEUR + CM_TO_STEP(PERIMETER_EPUCK/2.78f) // longueur + angle supplementaire de 60 degre en step
+#define T_ANGLE_MIN				LONGUEUR - CM_TO_STEP(PERIMETER_EPUCK/2.78f) //longueur - angle supplementaire de 60 degre en step
 //CARRE
 #define C_ARETE_MAX				4
-#define C_ANGLE_MAX				LONGUEUR + CM_TO_STEP(PERIMETER_EPUCK/3.665f) //longueur + angle supplémentaire de 90 degré en step
-#define C_ANGLE_MIN				LONGUEUR - CM_TO_STEP(PERIMETER_EPUCK/3.66f)//longueur - angle supplémentaire de 90 degré en step
+#define C_ANGLE_MAX				LONGUEUR + CM_TO_STEP(PERIMETER_EPUCK/3.665f) //longueur + angle supplementaire de 90 degre en step
+#define C_ANGLE_MIN				LONGUEUR - CM_TO_STEP(PERIMETER_EPUCK/3.66f)//longueur - angle supplementaire de 90 degre en step
 //COURBES
 #define LONGUEUR_COURBE			2 * (NB_STEP_ONE_TURN/WHEEL_PERIMETER) 	// 2 cm
 #define COURBE_ARETE_MAX		5

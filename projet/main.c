@@ -23,7 +23,7 @@
 #include <arm_math.h>
 #include <controle.h>
 
-
+//Cette fonction devrait etre supprimee, nous ne l'utilisons pas //
 void SendUint8ToComputer(uint8_t* data, uint16_t size)
 {
 	chSequentialStreamWrite((BaseSequentialStream *)&SD3, (uint8_t*)"START", 5);
@@ -44,7 +44,7 @@ static void serial_start(void)
 }
 
 
-
+//cette fonction devrait etre suprimee, nous ne l'utilisons pas //
 static void timer11_start(void){
     //General Purpose Timer configuration
     //timer 11 is a 16 bit timer so we can measure time
@@ -75,12 +75,12 @@ int main(void)
     //start the USB communication
     usb_start();
     //starts timer 11
-    timer11_start();
+    timer11_start(); 	//inutilisee
 	//inits the motors
 	motors_init();
 	//start TOF
 	VL53L0X_start();
-	//init thread
+	//inits the thread Dessin
 	dessin_start();
 
 

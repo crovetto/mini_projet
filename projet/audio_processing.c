@@ -17,14 +17,20 @@
 static BSEMAPHORE_DECL(sendToComputer_sem, TRUE);
 
 //2 times FFT_SIZE because these arrays contain complex numbers (real + imaginary)
-static float micLeft_cmplx_input[2 * FFT_SIZE];
-static float micRight_cmplx_input[2 * FFT_SIZE];
-static float micFront_cmplx_input[2 * FFT_SIZE];
+													/*Les variables statiques gloabales suivantes commentees sont inutilisees dans notre cas.
+													 * On pourrait les supprimer (si on decide de réduire la fonction get_audio_buffer_ptr().
+													 * Si nous gardons la fonction en l'etat (avec sa modularite/globalite),
+													 * nous aurions du les declarer dans la fonction get_audio_buffer_ptr()
+													 * pour des questions d'optimisation et de gestion de memoire.
+													 */
+static float micLeft_cmplx_input[2 * FFT_SIZE];			//inutilisee
+static float micRight_cmplx_input[2 * FFT_SIZE];		//inutilisee
+static float micFront_cmplx_input[2 * FFT_SIZE];		//inutilisee
 static float micBack_cmplx_input[2 * FFT_SIZE];
 //Arrays containing the computed magnitude of the complex numbers
-static float micLeft_output[FFT_SIZE];
-static float micRight_output[FFT_SIZE];
-static float micFront_output[FFT_SIZE];
+static float micLeft_output[FFT_SIZE];					//inutilisee
+static float micRight_output[FFT_SIZE];					//inutilisee
+static float micFront_output[FFT_SIZE];					//inutilisee
 static float micBack_output[FFT_SIZE];
 
 #define MIN_VALUE_THRESHOLD	10000 
@@ -184,8 +190,13 @@ void wait_send_to_computer(void){
 	chBSemWait(&sendToComputer_sem);
 }
 
+/* Cette fonction aurait due etre simplifiee (en supprimant les parties commentees ci-dessous)
+ * pour pouvoir enlever les nombreuses variables statiques declarees en debut de fichier, qui sont inutilisees.
+ * Elle est redondante en l'etat. C'est une fonction qui est plus globale et modulaire que ce qu'on en fait.
+ */
+
 float* get_audio_buffer_ptr(BUFFER_NAME_t name){
-	if(name == LEFT_CMPLX_INPUT){
+	if(name == LEFT_CMPLX_INPUT){			//d'ici
 		return micLeft_cmplx_input;
 	}
 	else if (name == RIGHT_CMPLX_INPUT){
@@ -194,7 +205,7 @@ float* get_audio_buffer_ptr(BUFFER_NAME_t name){
 	else if (name == FRONT_CMPLX_INPUT){
 		return micFront_cmplx_input;
 	}
-	else if (name == BACK_CMPLX_INPUT){
+	else if (name == BACK_CMPLX_INPUT){		//sauf lui
 		return micBack_cmplx_input;
 	}
 	else if (name == LEFT_OUTPUT){
@@ -205,8 +216,8 @@ float* get_audio_buffer_ptr(BUFFER_NAME_t name){
 	}
 	else if (name == FRONT_OUTPUT){
 		return micFront_output;
-	}
-	else if (name == BACK_OUTPUT){
+	}										//jusque la
+	else if (name == BACK_OUTPUT){			//en remplacant ce "else if" en "if"
 		return micBack_output;
 	}
 	else{
